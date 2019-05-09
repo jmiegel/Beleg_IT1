@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+
   <head>
     <meta charset="utf-8">
     <script>
@@ -29,15 +30,17 @@
       <h1>Welche Note siehst Du?</h1>
 
       <form>
-        <input type="checkbox" name="note1" value="note1"> <label>I have a bike</label><br>
-        <input type="checkbox" name="note2" value="note2"> <label>I have a car</label><br>
-        <input type="checkbox" name="note3" value="note3"><label> I have a boat</label><br>
-        <input type="checkbox" name="note4" value="note4"><label> I have a plane</label><br><br>
+        <input type="radio" name="note" value="note1"> <label>I have a bike</label><br>
+        <input type="radio" name="note" value="note2"> <label>I have a car</label><br>
+        <input type="radio" name="note" value="note3"><label> I have a boat</label><br>
+        <input type="radio" name="note" value="note4"><label> I have a plane</label><br><br>
         <button type="button" id="loesen" onclick="aktualisiere_progressbar()">loesen</button>
         <label>Fortschritt:
         <progress id="fortschritt" value="0" max="10">
-        </progress></label>
-        <button type="button" id="neustarten" onclick="neu_starten()">neu starten</button>
+        </progress></label><br>
+        <button type="button" id="neustarten" onclick="neu_starten()">neu starten</button><br>
+        <input type="radio" name="clef" value="violin"><label>Violinschlüssel</label><br>
+        <input type="radio" name="clef" value="bass"><label>Bassschlüssel</label><br>
       </form>
     </article>
     <nav>
