@@ -1,55 +1,44 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
-
-  <head>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de"><head>
     <meta charset="utf-8">
-    <script>
-      function aktualisiere_progressbar() {
-        if (document.getElementById('fortschritt').value < document.getElementById('fortschritt').max)
-        {
-          document.getElementById('fortschritt').value++;
-          //hier evtl. neue Aufgabe anzeigen rein
-        }
-      }
-      function neu_starten(){
-        document.getElementById('fortschritt').value = 0;
-        //neue Aufgaben laden könnte hier mit rein
-      }
-    </script>
     <title>Erkenne die Noten</title>
   </head>
   <body>
     <header>Noten lernen</header>
     <main>
     <article>
+    <div id="NotenTest">
+    </div>
+    
       <figure>
-        <img src="Note.png"/>
+        <img src="Note.png">
         <figcaption>Ist nur ein Testbild....
         </figcaption>
       </figure>
       <h1>Welche Note siehst Du?</h1>
 
       <form>
-        <input type="radio" name="note" value="note1"> <label>I have a bike</label><br>
-        <input type="radio" name="note" value="note2"> <label>I have a car</label><br>
-        <input type="radio" name="note" value="note3"><label> I have a boat</label><br>
-        <input type="radio" name="note" value="note4"><label> I have a plane</label><br><br>
+        <input type="radio" name="note" value="note1"><label id="A1"> I have a bike</label><br>
+        <input type="radio" name="note" value="note2"><label id="A2"> I have a car</label><br>
+        <input type="radio" name="note" value="note3"><label id="A3"> I have a boat</label><br>
+        <input type="radio" name="note" value="note4"><label id="A4"> I have a plane</label><br><br>
+        <button type="button" id="start" onclick="starten()">Start</button>
         <button type="button" id="loesen" onclick="aktualisiere_progressbar()">loesen</button>
         <label>Fortschritt:
         <progress id="fortschritt" value="0" max="10">
         </progress></label><br>
         <button type="button" id="neustarten" onclick="neu_starten()">neu starten</button><br>
-        <input type="radio" name="clef" value="violin"><label>Violinschlüssel</label><br>
+        <input type="radio" name="clef" value="treble" checked><label>Violinschlüssel</label><br>
         <input type="radio" name="clef" value="bass"><label>Bassschlüssel</label><br>
       </form>
     </article>
     <nav>
       <ul>
-         <li><a href="https://www.google.com/" >neue Aufgaben holen</a></li>
+         <li><a href="https://www.google.com/">neue Aufgaben holen</a></li>
       </ul>
     </nav>
 
     </main>
     <footer>von Dominic Zimmer und Julia Miegel</footer>
-  </body>
-</html>
+  
+
+</body></html>
