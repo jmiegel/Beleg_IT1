@@ -1,0 +1,130 @@
+@import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
+
+html {font-family: 'Lato', Calibri, Arial, sans-serif;, sans-serif;}
+header{font-size: 2em;}
+
+progress {
+  color: #3b3a50;
+  font-size: .6em;
+  line-height: 1.5em;
+  text-indent: .5em;
+  width: 200px;
+  height: 1.8em;
+  border: 2px solid #3b3a50;
+  background: transparent;
+}
+
+progress::-moz-progress-bar { background: #3b3a50; }
+progress::-webkit-progress-bar { background: transparent; }
+progress::-webkit-progress-value { background: #3b3a50; }
+
+
+
+
+
+/* CSS-Flexbox   */
+h1 {
+  color:#3b3a50;
+  font-size:1em;  /* Größe 28pt   */
+  }
+
+header{color:#3b3a50;
+        font-size:1em;
+      }
+
+label{
+  color:#3b3a50;
+  font-size:1em;
+}
+
+body {background-color:#3b3a50; font-size:110%;}
+header, footer {min-height: 5em; background:rgb( 155 190 169 );
+font-size:1em;
+}
+
+.form-button{
+   background-color: rgb( 249 216 87 );
+   border: 2px solid #3b3a50;
+   color:#3b3a50;
+
+}
+
+
+
+.form-button:hover{
+ color:#FFFFFF;
+ background-color:rgb(0 148 115);
+border: 2px solid #FFFFFF;
+}
+
+/* Rahmen + Abstände  */
+header, article, nav, aside, footer {
+margin: 0.0em;
+padding: 0.0em;
+}
+
+.form-radio
+{
+     -webkit-appearance: none;
+     -moz-appearance: none;
+     appearance: none;
+     display: inline-block;
+     position: relative;
+     background-color: #FFFFFF;
+     color: #3b3a50;
+     top: 10px;
+     height: 30px;
+     width: 30px;
+     border: 0;
+     border-radius: 50px;
+     cursor: pointer;
+     margin-right: 7px;
+     outline: none;
+}
+.form-radio:checked::before
+{
+     position: absolute;
+     font: 13px/1 'Open Sans', sans-serif;
+     left: 11px;
+     top: 7px;
+     content: '\02143';
+     transform: rotate(40deg);
+}
+.form-radio:hover
+{
+     background-color: rgb( 155 190 169 );
+}
+.form-radio:checked
+{
+     background-color: rgb(0 148 115);
+}
+
+
+/* Fley-Container für Flex-Items: article, nav, aside  */
+main { background-color:#fc766a; display: flex; }
+
+/* Flex-Items mit flex-grow, flex-shrink, flex-basis */
+nav {background:rgb(0 148 115) ; order: 1; flex: 0 0 8em;}
+
+article {background:rgb( 249 216 87 ); order: 2; flex: 3 3 0%;}
+
+aside {background: #fc766a; order: 3; flex: 1 1 0%;}
+
+
+/* wenn Viewport kleiner als 40 Zeichen -> eine Spalte, Reihenfolge  */
+@media all and (max-width: 40em) {
+  main {
+    flex-direction: column;
+  }
+  /* Änderung der Reihenfolge für Kinder in Folge lt. html*/
+  main > * {
+    order: 0;
+  }
+}
+
+
+
+/* weitere Formatierungen */
+figure pre {background-color: orange; width: 250px}
+
+hyphens: auto;
