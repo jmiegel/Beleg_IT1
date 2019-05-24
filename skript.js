@@ -8,7 +8,7 @@ var context = renderer.getContext();
 var waitForSleep = false;                   //Befindet sich im sleep?
 var AlreadyStarted = false;                 //Runde bereits angefangen?
 
-var stave;                                  
+var stave;
 var clef;
 
 var AufgabenArray = [0,1,2,3,4,5,6,7,8,9];                //Array zur Random Auswahl der Aufgaben
@@ -25,7 +25,7 @@ function shuffle(array)                                         //Mischt Array z
 {
     var tmp, current, top = array.length;
 
-    if(top) while(--top) 
+    if(top) while(--top)
     {
         current = Math.floor(Math.random() * (top + 1));
         tmp = array[current];
@@ -35,7 +35,7 @@ function shuffle(array)                                         //Mischt Array z
     return array;
 }
 
-const sleep = (milliseconds) => 
+const sleep = (milliseconds) =>
 {
     return new Promise(resolve => setTimeout(resolve, milliseconds));
 }
@@ -43,9 +43,9 @@ const sleep = (milliseconds) =>
 
 function getRadioInput(InputRadios)                                 //Gibt Wert von checked Radiobutton zurück bzw false
 {
-    for (var i = 0, length = InputRadios.length; i < length; i++) 
+    for (var i = 0, length = InputRadios.length; i < length; i++)
     {
-        if (InputRadios[i].checked) 
+        if (InputRadios[i].checked)
         {
             return InputRadios[i].value;
         }
@@ -56,8 +56,12 @@ function getRadioInput(InputRadios)                                 //Gibt Wert 
 
 function onClick_Start()
 {
+  //hier nochmal weiß-zeichnen des quadrats eingefügt, damit die erste note schon einen weißen hintergrund hat
+    context.clearRect(0, 0, 200, 200);
+    document.getElementById("NotenTest").style.border = "thick solid #FFFFFF";
+
     if (AlreadyStarted) neu_starten();
-    else 
+    else
     {
         AufgabenArray = shuffle(AufgabenArray);
         AntwortArray = shuffle(AntwortArray);
@@ -66,7 +70,7 @@ function onClick_Start()
 }
 
 
-function starten() 
+function starten()
 {
     stave = new VF.Stave(10, 40, 100);
     clef = getRadioInput(clefRadios);
@@ -80,7 +84,7 @@ function starten()
 }
 
 
-function neu_starten() 
+function neu_starten()
 {
     if (!waitForSleep)
     {
@@ -98,13 +102,13 @@ function neu_starten()
 
         AufgabenArray = shuffle(AufgabenArray);
         AntwortArray = shuffle(AntwortArray);
-        
+
         starten();
     }
 }
 
 
-function aktualisiere_progressbar() 
+function aktualisiere_progressbar()
 {
     if (!AlreadyStarted)
     {
@@ -114,12 +118,12 @@ function aktualisiere_progressbar()
 
     if (document.getElementById("fortschritt").value == document.getElementById('fortschritt').max)     //Nach 10 Aufgaben
     {
-        document.getElementById("Auswertung").innerHTML = 
+        document.getElementById("Auswertung").innerHTML =
         "Du hast "+richtigeAntw+" von 10 Aufgaben richtig gelöst! Drücke auf Neustart um weitere Aufgaben zu lösen.";
         return;
     }
 
-    if (document.getElementById("fortschritt").value < document.getElementById('fortschritt').max) 
+    if (document.getElementById("fortschritt").value < document.getElementById('fortschritt').max)
     {
         if (!getRadioInput(answerRadios))                                                               //Nichts ausgewählt
         {
@@ -128,12 +132,12 @@ function aktualisiere_progressbar()
         }
         else if (getRadioInput(answerRadios) == Notenliste.note[AufgabenArray[AufgabenCounter]].l[0])   //Antwort richtig
         {
-            document.getElementById("NotenTest").style.border = "thick solid #00FF00";
+            document.getElementById("NotenTest").style.border = "thick solid #78BD70";
             richtigeAntw++;
         }
         else                                                                                            //Antwort falsch
-            document.getElementById("NotenTest").style.border = "thick solid #FF0000";
-            
+            document.getElementById("NotenTest").style.border = "thick solid #D65076";
+
         document.getElementById("Ankreuzen").innerHTML = "";
         document.getElementById("fortschritt").value++;
 
@@ -145,7 +149,7 @@ function aktualisiere_progressbar()
 
         waitForSleep = true;
 
-        sleep(1000).then(() => 
+        sleep(1000).then(() =>
         {
             context.clearRect(0, 0, 200, 200);
             document.getElementById("NotenTest").style.border = "thick solid #FFFFFF";
@@ -165,7 +169,7 @@ function aktualisiere_progressbar()
 }
 
 
-function drawNote() 
+function drawNote()
 {
 
     stave.setContext(context).draw();
@@ -183,10 +187,10 @@ function drawNote()
 }
 
 
-function setAnswers() 
+function setAnswers()
 {
     AntwortArray = shuffle(AntwortArray);
-       
+
     document.getElementById("A1").innerHTML = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[0]];
     answerRadios[0].value = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[0]];
 
@@ -195,10 +199,10 @@ function setAnswers()
 
     document.getElementById("A3").innerHTML = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[2]];
     answerRadios[2].value = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[2]];
-    
+
     document.getElementById("A4").innerHTML = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
     answerRadios[3].value = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
-    
+
 }
 
 var Notenliste =
