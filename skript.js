@@ -53,6 +53,47 @@ function getRadioInput(InputRadios)                                 //Gibt Wert 
     return false;
 }
 
+var Notenliste;/* =
+{
+    "note": [
+    { "a": "c/4", "l": ["C", "D", "E", "B"] },
+    { "a": "d/4", "l": ["D", "C", "G", "F"] },
+    { "a": "e/4", "l": ["E", "B", "G", "F"] },
+    { "a": "f/4", "l": ["F", "A", "G", "E"] },
+    { "a": "g/4", "l": ["G", "B", "F", "C"] },
+    { "a": "a/4", "l": ["A", "B", "G", "D"] },
+    { "a": "b/4", "l": ["B", "C", "A", "D"] },
+    { "a": "c/5", "l": ["C", "B", "G", "F"] },
+    { "a": "d/5", "l": ["D", "A", "E", "C"] },
+    { "a": "e/5", "l": ["E", "B", "A", "F"] },
+    ],
+    "akkord3": [
+      { "a": "(C4 E4 G4)", "l": ["C", "H", "F", "D"] },
+      { "a": "(C4 E4 G3)", "l": ["C", "G", "E", "D"] },
+    ]
+}*/
+
+function getAufgabenBlock()
+{
+    AntwortArray = shuffle(AntwortArray);
+    var num = AntwortArray[0] + 1;
+    var file = "./noten"+num+".json";
+    loadBlock(file);
+}
+
+function loadBlock(file) 
+{
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function() 
+    {
+        if (this.readyState == 4 && this.status == 200)
+            Notenliste = JSON.parse(this.responseText);
+    };
+    xhttp.open("GET", file, true);
+    xhttp.send();
+}
+
+
 
 function onClick_Start()
 {
@@ -60,13 +101,18 @@ function onClick_Start()
     context.clearRect(0, 0, 200, 200);
     document.getElementById("NotenTest").style.border = "thick solid #FFFFFF";
 
-    if (AlreadyStarted) neu_starten();
-    else
+    getAufgabenBlock();
+    
+    sleep(10).then(() =>
     {
-        AufgabenArray = shuffle(AufgabenArray);
-        AntwortArray = shuffle(AntwortArray);
-        starten();
-    }
+        if (AlreadyStarted) neu_starten();
+        else
+        {
+            AufgabenArray = shuffle(AufgabenArray);
+            AntwortArray = shuffle(AntwortArray);
+            starten();
+        }
+    })
 }
 
 
@@ -203,24 +249,4 @@ function setAnswers()
     document.getElementById("A4").innerHTML = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
     answerRadios[3].value = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
 
-}
-
-var Notenliste =
-{
-    "note": [
-    { "a": "c/4", "l": ["C", "D", "E", "B"] },
-    { "a": "d/4", "l": ["D", "C", "G", "F"] },
-    { "a": "e/4", "l": ["E", "B", "G", "F"] },
-    { "a": "f/4", "l": ["F", "A", "G", "E"] },
-    { "a": "g/4", "l": ["G", "B", "F", "C"] },
-    { "a": "a/4", "l": ["A", "B", "G", "D"] },
-    { "a": "b/4", "l": ["B", "C", "A", "D"] },
-    { "a": "c/5", "l": ["C", "B", "G", "F"] },
-    { "a": "d/5", "l": ["D", "A", "E", "C"] },
-    { "a": "e/5", "l": ["E", "B", "A", "F"] },
-    ],
-    "akkord3": [
-      { "a": "(C4 E4 G4)", "l": ["C", "H", "F", "D"] },
-      { "a": "(C4 E4 G3)", "l": ["C", "G", "E", "D"] },
-    ]
 }
