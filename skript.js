@@ -3,7 +3,7 @@ var VF = Vex.Flow;
 var div = document.getElementById("NotenTest");
 var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
 renderer.resize(200, 200);
-var context = renderer.getContext();
+var context = renderer.getContext();                        //VexFlow grundlegendes Setup
 
 var waitForSleep = false;                   //Befindet sich im sleep?
 var AlreadyStarted = false;                 //Runde bereits angefangen?
@@ -11,11 +11,11 @@ var AlreadyStarted = false;                 //Runde bereits angefangen?
 var stave;
 var clef;
 
-var AufgabenArray = [0,1,2,3,4,5,6,7,8,9];                //Array zur Random Auswahl der Aufgaben
+var AufgabenArray;                                       //Array zur Random Auswahl der Aufgaben
 var AntwortArray = [0,1,2,3];                             //Array zum Random anordnen der Antworten
 var AufgabenCounter = 0;
-
 var richtigeAntw = 0;
+var Notenliste;
 
 var clefRadios = document.getElementsByName("clef");			//Notenschl�ssel Radiobuttons
 var answerRadios = document.getElementsByName("note");			//Antwort Radiobuttons
@@ -53,46 +53,64 @@ function getRadioInput(InputRadios)                                 //Gibt Wert 
     return false;
 }
 
-var Notenliste;/* =
+function parseNote()                            //Noten von Easyscore übersetzen
 {
-    "note": [
-    { "a": "c/4", "l": ["C", "D", "E", "B"] },
-    { "a": "d/4", "l": ["D", "C", "G", "F"] },
-    { "a": "e/4", "l": ["E", "B", "G", "F"] },
-    { "a": "f/4", "l": ["F", "A", "G", "E"] },
-    { "a": "g/4", "l": ["G", "B", "F", "C"] },
-    { "a": "a/4", "l": ["A", "B", "G", "D"] },
-    { "a": "b/4", "l": ["B", "C", "A", "D"] },
-    { "a": "c/5", "l": ["C", "B", "G", "F"] },
-    { "a": "d/5", "l": ["D", "A", "E", "C"] },
-    { "a": "e/5", "l": ["E", "B", "A", "F"] },
-    ],
-    "akkord3": [
-      { "a": "(C4 E4 G4)", "l": ["C", "H", "F", "D"] },
-      { "a": "(C4 E4 G3)", "l": ["C", "G", "E", "D"] },
-    ]
-}*/
-
-function getAufgabenBlock()
-{
-    AntwortArray = shuffle(AntwortArray);
-    var num = AntwortArray[0] + 1;
-    var file = "./noten"+num+".json";
-    loadBlock(file);
-}
-
-function loadBlock(file) 
-{
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() 
+    var Note;
+    if (clef == "treble")
+        Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase()+"/"+Notenliste.note[AufgabenArray[AufgabenCounter]].a[1];
+    if (clef == "bass")
     {
-        if (this.readyState == 4 && this.status == 200)
-            Notenliste = JSON.parse(this.responseText);
-    };
-    xhttp.open("GET", file, true);
-    xhttp.send();
+        var val = Notenliste.note[AufgabenArray[AufgabenCounter]].a[1] - 2;
+        Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase()+"/"+val;
+    }
+    return Note;
 }
 
+function initArray(Array)                       //Füllt Array mit Zahlen entsprechend der Anzahl der Aufgaben (0,1,....,n)
+{
+    var initAr = [];
+    for (var i = 0; i < Array.length; i++)
+    {
+        initAr[i] = i;
+    }
+    return initAr;
+}
+
+//----------------------------AJAX------------------------------------------------------------
+
+
+function getXhr() 
+{ // API für asynchrone Aufrufe
+    if (window.XMLHttpRequest) 
+    {
+        var xhr = new XMLHttpRequest();
+        return xhr;
+        } else return false;
+}
+
+function sendXhr() 
+{
+    xhr.onreadystatechange = xhrHandler;
+    xhr.open('GET', "http://idefix.informatik.htw-dresden.de/it1/beleg/noten-aufgaben.js", false);
+    xhr.send(null);
+    console.debug("Request send");
+}
+
+function xhrHandler() 
+{
+    console.log( "Status: " + xhr.readyState );
+    if (xhr.readyState != 4) { return; }
+    console.log( "Status: " + xhr.readyState + " " + xhr.status);
+    if (xhr.status == 200) 
+    {
+        Notenliste = JSON.parse(xhr.responseText);
+    } 
+}
+
+var xhr = getXhr();
+
+
+//----------------------------------------------------------------------------------------
 
 
 function onClick_Start()
@@ -101,18 +119,16 @@ function onClick_Start()
     context.clearRect(0, 0, 200, 200);
     document.getElementById("NotenTest").style.border = "thick solid #FFFFFF";
 
-    getAufgabenBlock();
+    sendXhr();
+    AufgabenArray = initArray(Notenliste.note);
     
-    sleep(10).then(() =>
+    if (AlreadyStarted) neu_starten();                  //Starten nachdem bereits eine Runde angefangen wurde
+    else
     {
-        if (AlreadyStarted) neu_starten();
-        else
-        {
-            AufgabenArray = shuffle(AufgabenArray);
-            AntwortArray = shuffle(AntwortArray);
-            starten();
-        }
-    })
+    	AufgabenArray = shuffle(AufgabenArray);        // 1. Starten zB bei neuladen
+        AntwortArray = shuffle(AntwortArray);
+        starten();
+    }
 }
 
 
@@ -122,7 +138,8 @@ function starten()
     clef = getRadioInput(clefRadios);
     stave.addClef(clef).addTimeSignature("4/4");
 
-    drawNote();
+    var Note = parseNote();
+    drawNote(Note);
 
     document.getElementById("starten").textContent = "Neustart";
     document.getElementById("Auswertung").innerHTML = "";
@@ -210,24 +227,20 @@ function aktualisiere_progressbar()
             waitForSleep = false;
             starten();
         })
-        //hier evtl. neue Aufgabe anzeigen rein
     }
 }
 
 
-function drawNote()
+function drawNote(note)
 {
-
     stave.setContext(context).draw();
-    var notes = [new VF.StaveNote({ clef: clef, keys: [Notenliste.note[AufgabenArray[AufgabenCounter]].a], duration: "w" })];
+    var notes = [new VF.StaveNote({ clef: clef, keys: [note], duration: "w" })];
 
     var voice = new VF.Voice({ num_beats: 1, beat_value: 1 });
     voice.addTickables(notes);
 
-    // Format and justify the notes to 400 pixels.
     var formatter = new VF.Formatter().joinVoices([voice]).format([voice], 400);
 
-    // Render voice
     voice.draw(context, stave);
     setAnswers();
 }
@@ -248,5 +261,4 @@ function setAnswers()
 
     document.getElementById("A4").innerHTML = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
     answerRadios[3].value = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
-
 }
