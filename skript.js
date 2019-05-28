@@ -57,11 +57,12 @@ function parseNote()                            //Noten von Easyscore übersetze
 {
     var Note;
     if (clef == "treble")
-        Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase()+"/"+Notenliste.note[AufgabenArray[AufgabenCounter]].a[1];
+        Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase() + "/"
+        + Notenliste.note[AufgabenArray[AufgabenCounter]].a[1];
     if (clef == "bass")
     {
         var val = Notenliste.note[AufgabenArray[AufgabenCounter]].a[1] - 2;
-        Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase()+"/"+val;
+        Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase() +"/"+ val;
     }
     return Note;
 }
