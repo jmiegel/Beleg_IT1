@@ -80,16 +80,16 @@ function initArray(Array)                       //Füllt Array mit Zahlen entspr
 //----------------------------AJAX------------------------------------------------------------
 
 
-function getXhr() 
+function getXhr()
 { // API für asynchrone Aufrufe
-    if (window.XMLHttpRequest) 
+    if (window.XMLHttpRequest)
     {
         var xhr = new XMLHttpRequest();
         return xhr;
         } else return false;
 }
 
-function sendXhr() 
+function sendXhr()
 {
     xhr.onreadystatechange = xhrHandler;
     xhr.open('GET', "http://idefix.informatik.htw-dresden.de/it1/beleg/noten-aufgaben.js", false);
@@ -97,15 +97,15 @@ function sendXhr()
     console.debug("Request send");
 }
 
-function xhrHandler() 
+function xhrHandler()
 {
     console.log( "Status: " + xhr.readyState );
     if (xhr.readyState != 4) { return; }
     console.log( "Status: " + xhr.readyState + " " + xhr.status);
-    if (xhr.status == 200) 
+    if (xhr.status == 200)
     {
         Notenliste = JSON.parse(xhr.responseText);
-    } 
+    }
 }
 
 var xhr = getXhr();
@@ -122,7 +122,7 @@ function onClick_Start()
 
     sendXhr();
     AufgabenArray = initArray(Notenliste.note);
-    
+
     if (AlreadyStarted) neu_starten();                  //Starten nachdem bereits eine Runde angefangen wurde
     else
     {
@@ -176,14 +176,14 @@ function aktualisiere_progressbar()
 {
     if (!AlreadyStarted)
     {
-        document.getElementById("Auswertung").innerHTML = "Es muss eine Runde gestartet werden um Aufgaben zu lösen!";
+        document.getElementById("Auswertung").innerHTML = "Es muss eine Runde gestartet werden um Aufgaben zu lösen!<br><br>";
         return;
     }
 
     if (document.getElementById("fortschritt").value == document.getElementById('fortschritt').max)     //Nach 10 Aufgaben
     {
         document.getElementById("Auswertung").innerHTML =
-        "Du hast "+richtigeAntw+" von 10 Aufgaben richtig gelöst! Drücke auf Neustart um weitere Aufgaben zu lösen.";
+        "<br>Du hast <b>"+richtigeAntw+" von 10</b> Aufgaben richtig gelöst! Drücke auf Neustart um weitere Aufgaben zu lösen.<br><br>";
         return;
     }
 
@@ -191,7 +191,7 @@ function aktualisiere_progressbar()
     {
         if (!getRadioInput(answerRadios))                                                               //Nichts ausgewählt
         {
-            document.getElementById("Ankreuzen").innerHTML = "Bitte eine Antwort auswählen";
+            document.getElementById("Ankreuzen").innerHTML = "<br>Bitte eine Antwort auswählen<br>";
             return;
         }
         else if (getRadioInput(answerRadios) == Notenliste.note[AufgabenArray[AufgabenCounter]].l[0])   //Antwort richtig
@@ -207,7 +207,7 @@ function aktualisiere_progressbar()
 
         if (document.getElementById("fortschritt").value == document.getElementById('fortschritt').max)     //beim 10. lösen
         {
-            document.getElementById("Auswertung").innerHTML = "Du hast "+richtigeAntw+" von 10 Aufgaben richtig gelöst!";
+            document.getElementById("Auswertung").innerHTML = "Du hast <b>"+richtigeAntw+" von 10</b> Aufgaben richtig gelöst!</br>Drücke auf Neustart um weitere Aufgaben zu lösen.<br><br>";
             return;
         }
 
