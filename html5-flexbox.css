@@ -1,11 +1,12 @@
-@import url(//fonts.googleapis.com/css?family=Lato:300,400,700);
 
 html
 {
   font-family: 'Lato', Calibri, Arial, sans-serif;
   sans-serif;
   text-align: center;
+  font-weight: 300;
 }
+
 
 header
 {
@@ -22,13 +23,11 @@ body
   font-size:1em;
 }
 
-}
-
 footer
 {
   min-height: 5em;
   background:rgb( 155 190 169 );
-  font-size:1em;
+  font-size:.8em;
 }
 
 progress {
@@ -62,7 +61,8 @@ progress::-webkit-progress-value
 h1
 {
   color:#3b3a50;
-  font-size:1em;
+  font-size:1.5em;
+  font-weight: 300;
 }
 
 #NotenTest
@@ -74,6 +74,7 @@ label
 {
   color:#3b3a50;
   font-size:1em;
+  font-weight: 300;
 }
 
 
@@ -83,6 +84,7 @@ label
    background-color: rgb( 249 216 87);
    border: 2px solid #3b3a50;
    color:#3b3a50;
+   font-weight: 300;
 }
 
 
@@ -92,6 +94,7 @@ label
   color:#3b3a50;
   background-color:rgb( 155 190 169 );
   border: 2px solid #3b3a50;
+  font-weight: 300;
 }
 
 
@@ -141,9 +144,13 @@ label
 
 #Auswertung
 {
+  font-size: 1.1em;
+  color:#D65076;
+}
 
-  font-size: 1.2em;
-  font-weight:bold;
+#Ankreuzen
+{
+  font-size: 1.1em;
   color:#D65076;
 }
 
@@ -174,6 +181,8 @@ aside
   order: 3;
   flex: 1 1 0%;
 }
+
+
 
 /* wenn Viewport kleiner als 40 Zeichen -> eine Spalte, Reihenfolge  */
 @media all and (max-width: 40em)
