@@ -7,6 +7,7 @@ var context = renderer.getContext();                        //VexFlow grundlegen
 
 var waitForSleep = false;                   //Befindet sich im sleep?
 var AlreadyStarted = false;                 //Runde bereits angefangen?
+var NoteEasyScore = false;                  //Befindet sich die aktuelle Notenlisten im Easyscore-System
 
 var stave;
 var clef;
@@ -15,7 +16,50 @@ var AufgabenArray;                                       //Array zur Random Ausw
 var AntwortArray = [0,1,2,3];                             //Array zum Random anordnen der Antworten
 var AufgabenCounter = 0;
 var richtigeAntw = 0;
-var Notenliste;
+var Notenliste = 
+{
+   "note":[
+      {  
+         "a":"c/4",
+         "l":["C","D","E","H"]
+      },
+      {
+         "a":"d/4",
+         "l":["D","C","G","F"]
+      },
+      {
+         "a":"e/4",
+         "l":["E","H","G","F"]
+      },
+      {
+         "a":"f/4",
+         "l":["F","A","G","E"]
+      },
+      {
+         "a":"g/4",
+         "l":["G","H","F","C"]
+      },
+      {
+         "a":"a/4",
+         "l":["A","H","G","D"]
+      },
+      {
+         "a":"b/4",
+         "l":["H","C","A","D"]
+      },
+      {
+         "a":"c/5",
+         "l":["C","H","G","F"]
+      },
+      {
+         "a":"d/5",
+         "l":["D","A","E","C"]
+      },
+      {
+         "a":"e/5",
+         "l":["E","H","A","F"]
+      }]
+};
 
 var clefRadios = document.getElementsByName("clef");			//Notenschl�ssel Radiobuttons
 var answerRadios = document.getElementsByName("note");			//Antwort Radiobuttons
@@ -53,16 +97,31 @@ function getRadioInput(InputRadios)                                 //Gibt Wert 
     return false;
 }
 
-function parseNote()                            //Noten von Easyscore übersetzen
+function parseNote()                            //Note aus NotenListe lesen
 {
     var Note;
-    if (clef == "treble")
-        Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase() + "/"
-        + Notenliste.note[AufgabenArray[AufgabenCounter]].a[1];
-    if (clef == "bass")
+    if (NoteEasyScore)                          //Noten von Easyscore übersetzen
     {
-        var val = Notenliste.note[AufgabenArray[AufgabenCounter]].a[1] - 2;
-        Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase() +"/"+ val;
+        if (clef == "treble")
+            Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase() + "/"
+            + Notenliste.note[AufgabenArray[AufgabenCounter]].a[1];
+        if (clef == "bass")
+        {
+            var val = Notenliste.note[AufgabenArray[AufgabenCounter]].a[1] - 2;
+            Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0].toLowerCase() +"/"+ val;
+        }
+    }
+    else                                        //Noten ohne Easyscore lesen
+    {
+        if (clef == "treble")
+        {
+            Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a;
+        }
+        if (clef == "bass")
+        {
+            var val = Notenliste.note[AufgabenArray[AufgabenCounter]].a[2] - 2;
+            Note = Notenliste.note[AufgabenArray[AufgabenCounter]].a[0] +"/"+ val;
+        }
     }
     return Note;
 }
@@ -92,7 +151,7 @@ function getXhr()
 function sendXhr()
 {
     xhr.onreadystatechange = xhrHandler;
-    xhr.open('GET', "http://idefix.informatik.htw-dresden.de/it1/beleg/noten-aufgaben.js", false);
+    xhr.open('GET', "http://idefix.informatik.htw-dresden.de/it1/beleg/noten-aufgaben.js", true);
     xhr.send(null);
     console.debug("Request send");
 }
@@ -105,6 +164,7 @@ function xhrHandler()
     if (xhr.status == 200)
     {
         Notenliste = JSON.parse(xhr.responseText);
+        NoteEasyScore = true;
     }
 }
 
@@ -120,7 +180,6 @@ function onClick_Start()
     context.clearRect(0, 0, 200, 200);
     document.getElementById("NotenTest").style.border = "thick solid #FFFFFF";
 
-    sendXhr();
     AufgabenArray = initArray(Notenliste.note);
 
     if (AlreadyStarted) neu_starten();                  //Starten nachdem bereits eine Runde angefangen wurde
@@ -183,7 +242,7 @@ function aktualisiere_progressbar()
     if (document.getElementById("fortschritt").value == document.getElementById('fortschritt').max)     //Nach 10 Aufgaben
     {
         document.getElementById("Auswertung").innerHTML =
-        "<br>Du hast <b>"+richtigeAntw+" von 10</b> Aufgaben richtig gelöst! Drücke auf Neustart um weitere Aufgaben zu lösen.<br><br>";
+        "<br>Du hast <b>"+richtigeAntw+" von 10</b> Aufgaben richtig gelöst!</br>Drücke auf Neustart um weitere Aufgaben zu lösen.<br><br>";
         return;
     }
 
@@ -207,7 +266,8 @@ function aktualisiere_progressbar()
 
         if (document.getElementById("fortschritt").value == document.getElementById('fortschritt').max)     //beim 10. lösen
         {
-            document.getElementById("Auswertung").innerHTML = "Du hast <b>"+richtigeAntw+" von 10</b> Aufgaben richtig gelöst!</br>Drücke auf Neustart um weitere Aufgaben zu lösen.<br><br>";
+            document.getElementById("Auswertung").innerHTML = 
+	    "<br>Du hast <b>"+richtigeAntw+" von 10</b> Aufgaben richtig gelöst!</br>Drücke auf Neustart um weitere Aufgaben zu lösen.<br><br>";
             return;
         }
 
@@ -263,3 +323,4 @@ function setAnswers()
     document.getElementById("A4").innerHTML = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
     answerRadios[3].value = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
 }
+
