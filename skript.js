@@ -165,6 +165,7 @@ function xhrHandler()
     {
         Notenliste = JSON.parse(xhr.responseText);
         NoteEasyScore = true;
+        document.getElementById("AufgabenAjax").innerHTML ="Aufgaben wurden erfolgreich geladen."
     }
 }
 
