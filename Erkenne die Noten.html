@@ -1,53 +1,41 @@
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" href="html5-flexbox.css" ></link>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900"></link>
-
-
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" href="html5-flexbox.css" ></link>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato:300,400,700,900"></link>
     <title>Erkenne die Noten</title>
   </head>
   <body>
-    <header>Noten lernen</header>
-    <main>
-    <article class="article">
-
-      <h1>Welche Note siehst Du?</h1>
-     <!--<label>Fortschritt:<br>-->
-      <progress id="fortschritt" value="0" max="10">
-      </progress><br><br>
-      <label class="auswertung" id="Auswertung"></label>
-      <div id="NotenTest" style="width: 200px; border: thick solid rgb(255, 255, 255);"></div>
-
-
-      <form class="form">
-        <input type="radio" class="form-radio" name="note" value="E"><label id="A1">Antwort</label>
-        <input type="radio" class="form-radio" name="note" value="D"><label id="A2">Antwort</label><br>
-        <input type="radio" class="form-radio" name="note" value="C"><label id="A3">Antwort</label>
-        <input type="radio" class="form-radio" name="note" value="A"><label id="A4">Antwort</label><br>
-        <label id="Ankreuzen"></label><br>
-        <button class="form-button" type="button" id="starten" onclick="onClick_Start()">Start</button>
-        <button class="form-button" type="button" id="lösen" onclick="aktualisiere_progressbar()">lösen</button><br><br>
-
-
-        <input type="radio" class="form-radio" name="clef" value="treble" checked=""><label>Violinschlüssel</label><br>
-        <input type="radio" class="form-radio" name="clef" value="bass"><label>Bassschlüssel</label><br>
-
-</form>
-    </article>
-    <nav>
-      <ul>
-	<li>
-         <a href onclick="sendXhr();return false;">Neue Aufgaben holen</a><br>
-    	 <label class="auswertung" id="AufgabenAjax"></label>
-	</li>
-      </ul>
-    </nav>
-
-    </main>
-    <footer>von Dominic Zimmer und Julia Miegel</footer>
-<script src="./vexflow-debug.js"></script>
-<script src="./vexflow-min.js"></script>
-<script src="./skript.js"></script>
-
-
-
-</body></html>
+      <header>Noten lernen</header>
+      <main>
+        <article class="article">
+          <h1>Welche Note siehst Du?</h1>
+          <progress id="fortschritt" value="0" max="10">
+          </progress><br><br>
+          <label class="auswertung" id="Auswertung"></label>
+          <div id="NotenTest" style="width: 200px; border: thick solid rgb(255, 255, 255);"></div>
+          <form class="form">
+            <input type="radio" class="form-radio" name="note" value="E"><label id="A1">Antwort</label>
+            <input type="radio" class="form-radio" name="note" value="D"><label id="A2">Antwort</label><br>
+            <input type="radio" class="form-radio" name="note" value="C"><label id="A3">Antwort</label>
+            <input type="radio" class="form-radio" name="note" value="A"><label id="A4">Antwort</label><br>
+            <label id="Ankreuzen"></label><br>
+            <button class="form-button" type="button" id="starten" onclick="onClick_Start()">Start</button>
+            <button class="form-button" type="button" id="lösen" onclick="aktualisiere_progressbar()">lösen</button><br><br>
+            <input type="radio" class="form-radio" name="clef" value="treble" checked=""><label>Violinschlüssel</label><br>
+            <input type="radio" class="form-radio" name="clef" value="bass"><label>Bassschlüssel</label><br>
+          </form>
+        </article>
+        <nav>
+          <a href onclick="sendXhr();return false;">Neue Aufgaben holen</a><br>
+      	  <label class="auswertung" id="AufgabenAjax"></label>
+        </nav>
+     </main>
+    <footer>
+      <p>von Dominic Zimmer und Julia Miegel</p>
+    </footer>
+    <script src="./vexflow-debug.js"></script>
+    <script src="./vexflow-min.js"></script>
+    <script src="./skript.js"></script>
+  </body>
+</html>

@@ -3,7 +3,7 @@ var VF = Vex.Flow;
 var div = document.getElementById("NotenTest");
 var renderer = new VF.Renderer(div, VF.Renderer.Backends.SVG);
 renderer.resize(200, 200);
-var context = renderer.getContext();                        //VexFlow grundlegendes Setup
+var context = renderer.getContext();         //VexFlow grundlegendes Setup
 
 var waitForSleep = false;                   //Befindet sich im sleep?
 var AlreadyStarted = false;                 //Runde bereits angefangen?
@@ -12,14 +12,14 @@ var NoteEasyScore = false;                  //Befindet sich die aktuelle Notenli
 var stave;
 var clef;
 
-var AufgabenArray;                                       //Array zur Random Auswahl der Aufgaben
-var AntwortArray = [0,1,2,3];                             //Array zum Random anordnen der Antworten
+var AufgabenArray;                          //Array zur Random Auswahl der Aufgaben
+var AntwortArray = [0,1,2,3];               //Array zum Random anordnen der Antworten
 var AufgabenCounter = 0;
 var richtigeAntw = 0;
-var Notenliste = 
+var Notenliste =
 {
    "note":[
-      {  
+      {
          "a":"c/4",
          "l":["C","D","E","H"]
       },
@@ -61,11 +61,11 @@ var Notenliste =
       }]
 };
 
-var clefRadios = document.getElementsByName("clef");			//Notenschl�ssel Radiobuttons
-var answerRadios = document.getElementsByName("note");			//Antwort Radiobuttons
+var clefRadios = document.getElementsByName("clef");			//Notenschluessel Radiobuttons
+var answerRadios = document.getElementsByName("note");		//Antwort Radiobuttons
 
 
-function shuffle(array)                                         //Mischt Array zufällig
+function shuffle(array)                                   //Mischt Array zufällig
 {
     var tmp, current, top = array.length;
 
@@ -85,7 +85,7 @@ const sleep = (milliseconds) =>
 }
 
 
-function getRadioInput(InputRadios)                                 //Gibt Wert von checked Radiobutton zurück bzw false
+function getRadioInput(InputRadios)              //Gibt Wert von checked Radiobutton zurück bzw false
 {
     for (var i = 0, length = InputRadios.length; i < length; i++)
     {
@@ -136,7 +136,7 @@ function initArray(Array)                       //Füllt Array mit Zahlen entspr
     return initAr;
 }
 
-//----------------------------AJAX------------------------------------------------------------
+//----------------------------AJAX----------------------------------------------
 
 
 function getXhr()
@@ -172,18 +172,17 @@ function xhrHandler()
 var xhr = getXhr();
 
 
-//----------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------
 
 
 function onClick_Start()
 {
-  //hier nochmal weiß-zeichnen des quadrats eingefügt, damit die erste note schon einen weißen hintergrund hat
     context.clearRect(0, 0, 200, 200);
     document.getElementById("NotenTest").style.border = "thick solid #FFFFFF";
 
     AufgabenArray = initArray(Notenliste.note);
 
-    if (AlreadyStarted) neu_starten();                  //Starten nachdem bereits eine Runde angefangen wurde
+    if (AlreadyStarted) neu_starten();               //Starten nachdem bereits eine Runde angefangen wurde
     else
     {
     	AufgabenArray = shuffle(AufgabenArray);        // 1. Starten zB bei neuladen
@@ -249,7 +248,7 @@ function aktualisiere_progressbar()
 
     if (document.getElementById("fortschritt").value < document.getElementById('fortschritt').max)
     {
-        if (!getRadioInput(answerRadios))                                                               //Nichts ausgewählt
+        if (!getRadioInput(answerRadios))                                                                //Nichts ausgewählt
         {
             document.getElementById("Ankreuzen").innerHTML = "<br>Bitte eine Antwort auswählen<br>";
             return;
@@ -267,7 +266,7 @@ function aktualisiere_progressbar()
 
         if (document.getElementById("fortschritt").value == document.getElementById('fortschritt').max)     //beim 10. lösen
         {
-            document.getElementById("Auswertung").innerHTML = 
+            document.getElementById("Auswertung").innerHTML =
 	    "<br>Du hast <b>"+richtigeAntw+" von 10</b> Aufgaben richtig gelöst!</br>Drücke auf Neustart um weitere Aufgaben zu lösen.<br><br>";
             return;
         }
@@ -324,4 +323,3 @@ function setAnswers()
     document.getElementById("A4").innerHTML = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
     answerRadios[3].value = Notenliste.note[AufgabenArray[AufgabenCounter]].l[AntwortArray[3]];
 }
-
